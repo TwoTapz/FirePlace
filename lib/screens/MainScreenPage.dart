@@ -3,6 +3,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:geocoding/geocoding.dart';
 
+import 'MapPage.dart';
+
 class MainScreenPage extends StatefulWidget {
   const MainScreenPage({super.key});
 
@@ -156,7 +158,33 @@ Future<void> _getCurrentLocation() async {
                     ),
                   ],
                 )
-              )
+              ),
+
+              const SizedBox(height: 30),
+
+              Positioned(
+              bottom: 30,
+              left: 30,
+              right: 30,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black,
+                  side: const BorderSide(color: Colors.black),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MapPage()),
+                  );
+                },
+                child: const Text('START', style: TextStyle(letterSpacing: 2)),
+              ),
+            )
             ],
           ),
         ),
