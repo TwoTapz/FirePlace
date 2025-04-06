@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -16,11 +17,15 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   late GoogleMapController mapController;
+  late Heatmap _defaultHeatmap;
+  late Set<Heatmap> _heatmaps = {};
 
   LatLng? _currentPosition;
+  LatLngBounds? _cameraBounds;
   bool _isLoading = true;
 
   String _location = 'Locating...';
+  String _errMessage = '';
   String _date = '';
   String _time = '';
   double humidity = 0.7; // Sample value
@@ -37,6 +42,64 @@ class _MapPageState extends State<MapPage> {
     _date = DateFormat('dd MMMM yyyy').format(now);
     _time = DateFormat('hh.mm a').format(now);
     setState(() {});
+  }
+
+  Heatmap getHeatmap(LatLng? position) {
+    if (position == null) {
+      return Heatmap(
+        heatmapId: HeatmapId("emptyHeatmap"), 
+        data: [], 
+        radius: HeatmapRadius.fromPixels(0)
+      );
+    }
+    double lat = position.latitude;
+    double long = position.longitude;
+    Random rng = Random();
+
+    double dx_ = 0.00003;
+    double dy_ = 0.00003;
+
+    List<WeightedLatLng> heatMapData = [];
+    for (int i = 0; i < 8; i++) {
+      double weight = 15.0 + rng.nextInt(10);
+      double dx = dx_ * (rng.nextInt(4)-i);
+      double dy = dy_ * (rng.nextInt(4)-i);
+
+      heatMapData.add(
+        WeightedLatLng(LatLng(lat + dy, long - dx), weight: weight)
+      );
+      heatMapData.add(
+        WeightedLatLng(LatLng(lat - dy, long + dx), weight: weight)
+      );
+    }
+
+    print(heatMapData);
+
+    Heatmap heatmap = Heatmap(
+      heatmapId: HeatmapId("defaultHeatmap"),
+      radius: HeatmapRadius.fromPixels(50),
+      data: heatMapData,
+      // gradient: HeatmapGradient(colors)
+    );
+    return heatmap;
+  }
+
+  Future<void> _toggleHeatmap() async {
+    if (_heatmaps.isNotEmpty) {
+      setState(() {
+        _heatmaps = {};
+      });
+    } else {
+
+
+      try {
+        setState(() {
+          _heatmaps = {_defaultHeatmap};
+        });
+      } catch (e) {
+        setState(() => _errMessage = 'Error: $e');
+      }
+    }
   }
 
   Future<void> _getCurrentLocation() async {
@@ -61,11 +124,20 @@ class _MapPageState extends State<MapPage> {
     );
     double lat = position.latitude;
     double long = position.longitude;
+    double cameraRadius = 0.0005;
 
+    LatLngBounds bounds = LatLngBounds(
+      northeast: LatLng(lat + cameraRadius, long + cameraRadius), 
+      southwest: LatLng(lat - cameraRadius, long - cameraRadius), 
+    );
     LatLng location = LatLng(lat, long);
+
+    Heatmap heatmap = getHeatmap(LatLng(lat, long));
 
     setState(() {
       _currentPosition = location;
+      _cameraBounds = bounds;
+      _defaultHeatmap = heatmap;
       _isLoading = false;
     });
 
@@ -89,7 +161,7 @@ class _MapPageState extends State<MapPage> {
   }
 
   void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;  
+    mapController = controller;
   }
 
   @override
@@ -97,6 +169,7 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_location),
+        flexibleSpace: Text(_errMessage),
       ),
       body: _isLoading ?
         const Center(
@@ -107,9 +180,27 @@ class _MapPageState extends State<MapPage> {
           onMapCreated: _onMapCreated,
           initialCameraPosition: CameraPosition(
             target: _currentPosition!,
-            zoom: 16.0,
+            zoom: 21.0
           ),
-        )
+          zoomGesturesEnabled: true,
+          tiltGesturesEnabled: false,
+          onCameraMove: (CameraPosition cameraPosition) {
+          },
+          cameraTargetBounds: CameraTargetBounds(
+            _cameraBounds,
+          ),
+          minMaxZoomPreference: MinMaxZoomPreference(19, 25),
+          heatmaps: _heatmaps,
+        ),
+      floatingActionButton: _isLoading ? null : FloatingActionButton(
+        onPressed: () {
+          _toggleHeatmap();
+        },
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.amber,
+        shape: CircleBorder(),
+        child: const Icon(Icons.local_fire_department),
+      ),
     );
   }
 }
