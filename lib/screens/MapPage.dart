@@ -19,6 +19,7 @@ class _MapPageState extends State<MapPage> {
   late GoogleMapController mapController;
   late Heatmap _defaultHeatmap;
   late Set<Heatmap> _heatmaps = {};
+  late Icon _toggleBtnIcon;
 
   LatLng? _currentPosition;
   LatLngBounds? _cameraBounds;
@@ -73,6 +74,30 @@ class _MapPageState extends State<MapPage> {
       );
     }
 
+    // List<Color> gradientColors = [
+    //   Color.fromARGB(0, 0, 255, 255),
+    //   Color.fromARGB(1, 0, 255, 255),
+    //   Color.fromARGB(1, 0, 191, 255),
+    //   Color.fromARGB(1, 0, 127, 255),
+    //   Color.fromARGB(1, 0, 63, 255),
+    //   Color.fromARGB(1, 0, 0, 255),
+    //   Color.fromARGB(1, 0, 0, 253),
+    //   Color.fromARGB(1, 0, 0, 191),
+    //   Color.fromARGB(1, 0, 0, 159),
+    //   Color.fromARGB(1, 0, 0, 127),
+    //   Color.fromARGB(1, 63, 0, 91),
+    //   Color.fromARGB(1, 127, 0, 63),
+    //   Color.fromARGB(1, 191, 0, 31),
+    //   Color.fromARGB(1, 255, 0, 0),
+
+    // ];
+
+    // double startPoint = 1 / gradientColors.length;
+    // List<HeatmapGradientColor> colors = [];
+    // for (int i = 0; i < gradientColors.length; i++) {
+    //   colors.add(HeatmapGradientColor(gradientColors[i], startPoint*i));
+    // }
+
     print(heatMapData);
 
     Heatmap heatmap = Heatmap(
@@ -88,6 +113,7 @@ class _MapPageState extends State<MapPage> {
     if (_heatmaps.isNotEmpty) {
       setState(() {
         _heatmaps = {};
+        _toggleBtnIcon = Icon(Icons.device_thermostat);
       });
     } else {
 
@@ -95,6 +121,7 @@ class _MapPageState extends State<MapPage> {
       try {
         setState(() {
           _heatmaps = {_defaultHeatmap};
+          _toggleBtnIcon = Icon(Icons.remove_red_eye);
         });
       } catch (e) {
         setState(() => _errMessage = 'Error: $e');
@@ -138,6 +165,7 @@ class _MapPageState extends State<MapPage> {
       _currentPosition = location;
       _cameraBounds = bounds;
       _defaultHeatmap = heatmap;
+      _toggleBtnIcon = Icon(Icons.device_thermostat);
       _isLoading = false;
     });
 
@@ -168,8 +196,21 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_location),
-        flexibleSpace: Text(_errMessage),
+        flexibleSpace: PreferredSize(
+          preferredSize: Size.fromHeight(50.0), 
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 0, bottom: 14.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Icon(Icons.location_pin, size: 30, color: Colors.black),
+                  Text(_location, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
       body: _isLoading ?
         const Center(
@@ -186,6 +227,7 @@ class _MapPageState extends State<MapPage> {
           tiltGesturesEnabled: false,
           onCameraMove: (CameraPosition cameraPosition) {
           },
+          mapType: MapType.satellite,
           cameraTargetBounds: CameraTargetBounds(
             _cameraBounds,
           ),
@@ -199,7 +241,7 @@ class _MapPageState extends State<MapPage> {
         foregroundColor: Colors.white,
         backgroundColor: Colors.amber,
         shape: CircleBorder(),
-        child: const Icon(Icons.local_fire_department),
+        child: _toggleBtnIcon,
       ),
     );
   }

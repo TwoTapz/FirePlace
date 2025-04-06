@@ -159,35 +159,21 @@ Future<void> _getCurrentLocation() async {
                   ],
                 )
               ),
-
-              const SizedBox(height: 30),
-
-              Positioned(
-              bottom: 30,
-              left: 30,
-              right: 30,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black,
-                  side: const BorderSide(color: Colors.black),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MapPage()),
-                  );
-                },
-                child: const Text('START', style: TextStyle(letterSpacing: 2)),
-              ),
-            )
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MapPage()),
+          );
+        },
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.amber,
+        shape: CircleBorder(),
+        child: const Icon(Icons.local_fire_department),
       ),
     );
   }
