@@ -197,10 +197,10 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: PreferredSize(
-          preferredSize: Size.fromHeight(50.0), 
+          preferredSize: Size.fromHeight(80.0), 
           child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.only(top: 0, bottom: 14.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -211,6 +211,10 @@ class _MapPageState extends State<MapPage> {
             ),
           ),
         ),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(45.0), 
+          child: Container(),
+        )
       ),
       body: _isLoading ?
         const Center(
