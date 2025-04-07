@@ -30,6 +30,18 @@ class _MainScreenPageState extends State<MainScreenPage> {
     setState(() {});
   }
 
+Widget _buildRiskRow(String ideal, String label, String current) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(ideal, style: const TextStyle(fontWeight: FontWeight.w500)),
+      Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+      Text(current, style: const TextStyle(fontWeight: FontWeight.w500)),
+    ],
+  );
+}
+
+
 Future<void> _getCurrentLocation() async {
   bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
   LocationPermission permission = await Geolocator.checkPermission();
@@ -156,7 +168,42 @@ Future<void> _getCurrentLocation() async {
                     ),
                   ],
                 )
-              )
+              ),
+
+              const SizedBox(height: 30),
+
+              AnimatedSlide(
+                offset: Offset(0, 0), // slide in from bottom
+                duration: Duration(milliseconds: 800),
+                curve: Curves.easeOut,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 18),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: const [
+                      BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 3)),
+                    ],
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              Text('Ideal', style: TextStyle(fontWeight: FontWeight.bold)),
+                              Text('Current', style: TextStyle(fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          _buildRiskRow('30%-55%', 'Humidity', '22%'),
+                          const SizedBox(height: 16),
+                          _buildRiskRow('10°C–30°C', 'Temperature', '32°C'),
+                          const SizedBox(height: 16),
+                          _buildRiskRow('0–10km/h', 'Wind Speed', '14km/h'),
+                        ],
+                      ),
+                    ),
+                  ),
             ],
           ),
         ),
