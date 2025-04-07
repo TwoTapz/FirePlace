@@ -27,22 +27,11 @@ class _MapPageState extends State<MapPage> {
 
   String _location = 'Locating...';
   String _errMessage = '';
-  String _date = '';
-  String _time = '';
-  double humidity = 0.7; // Sample value
 
   @override
   void initState() {
     super.initState();
-    _getCurrentDateTime();
     _getCurrentLocation();
-  }
-
-  void _getCurrentDateTime() {
-    final now = DateTime.now().toUtc().add(const Duration(hours: 8));
-    _date = DateFormat('dd MMMM yyyy').format(now);
-    _time = DateFormat('hh.mm a').format(now);
-    setState(() {});
   }
 
   Heatmap getHeatmap(LatLng? position) {
