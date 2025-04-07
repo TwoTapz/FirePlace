@@ -1,0 +1,1 @@
+/home/hamzah/git/FirePlace/build/app/intermediates/cxx/Debug/614k1t1t/obj/x86_64
