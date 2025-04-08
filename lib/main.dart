@@ -6,11 +6,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 void main() async {
   await dotenv.load(fileName: ".env");
 
-<<<<<<< HEAD
-=======
-void main() async {
-  // await dotenv.load(fileName: ".env");
->>>>>>> d741ab64ba007749afa3c936b9d2183b87bf86f6
   runApp(const MyApp());
 }
 

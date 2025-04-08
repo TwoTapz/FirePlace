@@ -7,13 +7,13 @@ import 'package:geocoding/geocoding.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'MapPage.dart';
 
 final String weatherApiKey = dotenv.env['GOOGLE_API_KEY']!;
 
 final String geminiApiKey = dotenv.env['GEMINI_API_KEY']!;
 final String geminiVersion = dotenv.env['GEMINI_VERSION']!;
 
-import 'MapPage.dart';
 
 class MainScreenPage extends StatefulWidget {
   const MainScreenPage({super.key});
@@ -340,7 +340,6 @@ Future<void> _getGeminiAnalysis(Position position) async {
                             ],
                       ),
                     ),
-<<<<<<< HEAD
                   ),
 
                   const SizedBox(height: 30),
@@ -373,15 +372,8 @@ Future<void> _getGeminiAnalysis(Position position) async {
               ),
             ),
           ),
-      )
-=======
-                  ],
-                )
-              ),
-            ],
-          ),
-        ),
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -394,7 +386,6 @@ Future<void> _getGeminiAnalysis(Position position) async {
         shape: CircleBorder(),
         child: const Icon(Icons.local_fire_department),
       ),
->>>>>>> d741ab64ba007749afa3c936b9d2183b87bf86f6
     );
   }
 }
