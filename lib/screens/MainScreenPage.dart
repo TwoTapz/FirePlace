@@ -13,6 +13,8 @@ final String weatherApiKey = dotenv.env['GOOGLE_API_KEY']!;
 final String geminiApiKey = dotenv.env['GEMINI_API_KEY']!;
 final String geminiVersion = dotenv.env['GEMINI_VERSION']!;
 
+import 'MapPage.dart';
+
 class MainScreenPage extends StatefulWidget {
   const MainScreenPage({super.key});
 
@@ -338,6 +340,7 @@ Future<void> _getGeminiAnalysis(Position position) async {
                             ],
                       ),
                     ),
+<<<<<<< HEAD
                   ),
 
                   const SizedBox(height: 30),
@@ -371,6 +374,27 @@ Future<void> _getGeminiAnalysis(Position position) async {
             ),
           ),
       )
+=======
+                  ],
+                )
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MapPage()),
+          );
+        },
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.amber,
+        shape: CircleBorder(),
+        child: const Icon(Icons.local_fire_department),
+      ),
+>>>>>>> d741ab64ba007749afa3c936b9d2183b87bf86f6
     );
   }
 }

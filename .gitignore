@@ -44,4 +44,9 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+<<<<<<< HEAD
+=======
+/android/app/.cxx
+
+>>>>>>> d741ab64ba007749afa3c936b9d2183b87bf86f6
 *.env
