@@ -1,0 +1,2 @@
+C:/FYP/KitaHack2025/kitahack/android/app/.cxx/Debug/605o152q/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/FYP/KitaHack2025/kitahack/android/app/.cxx/Debug/605o152q/arm64-v8a/CMakeFiles/rebuild_cache.dir
