@@ -1,0 +1,2 @@
+/home/hamzah/git/FirePlace/android/app/.cxx/Debug/614k1t1t/armeabi-v7a/CMakeFiles/edit_cache.dir
+/home/hamzah/git/FirePlace/android/app/.cxx/Debug/614k1t1t/armeabi-v7a/CMakeFiles/rebuild_cache.dir

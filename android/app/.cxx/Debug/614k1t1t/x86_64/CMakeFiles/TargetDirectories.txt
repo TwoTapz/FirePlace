@@ -1,0 +1,2 @@
+/home/hamzah/git/FirePlace/android/app/.cxx/Debug/614k1t1t/x86_64/CMakeFiles/edit_cache.dir
+/home/hamzah/git/FirePlace/android/app/.cxx/Debug/614k1t1t/x86_64/CMakeFiles/rebuild_cache.dir
